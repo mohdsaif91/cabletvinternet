@@ -1,0 +1,218 @@
+/*--------------------------------------------------------------
+# Illustrations
+--------------------------------------------------------------*/
+@import 'illustrations/illustrations';
+
+/*--------------------------------------------------------------
+# Fonts
+--------------------------------------------------------------*/
+@import 'base/fonts';
+
+/*--------------------------------------------------------------
+# Scroll reveal
+--------------------------------------------------------------*/
+@import 'base/scroll-reveal';
+
+/*--------------------------------------------------------------
+# Base
+--------------------------------------------------------------*/
+@import 'base/base';
+
+/*--------------------------------------------------------------
+# Typography
+--------------------------------------------------------------*/
+@import 'base/typography';
+
+/*--------------------------------------------------------------
+# Containers
+--------------------------------------------------------------*/
+@import 'elements/containers';
+
+/*--------------------------------------------------------------
+# Buttons
+--------------------------------------------------------------*/
+@import 'elements/buttons';
+
+/*--------------------------------------------------------------
+# Forms
+--------------------------------------------------------------*/
+@import 'elements/forms';
+
+/*--------------------------------------------------------------
+# Hamburger
+--------------------------------------------------------------*/
+@import 'elements/hamburger';
+
+/*--------------------------------------------------------------
+# Modal
+--------------------------------------------------------------*/
+@import 'elements/modal';
+
+/*--------------------------------------------------------------
+# Split pattern
+--------------------------------------------------------------*/
+@import 'patterns/split';
+
+/*--------------------------------------------------------------
+# Tiles pattern
+--------------------------------------------------------------*/
+@import 'patterns/tiles';
+
+/*--------------------------------------------------------------
+# Header
+--------------------------------------------------------------*/
+@import 'layout/header';
+
+/*--------------------------------------------------------------
+# Site content
+--------------------------------------------------------------*/
+@import 'layout/main';
+
+/*--------------------------------------------------------------
+# Footer
+--------------------------------------------------------------*/
+@import 'layout/footer';
+
+/*--------------------------------------------------------------
+# Section
+--------------------------------------------------------------*/
+@import 'sections/section';
+
+/*--------------------------------------------------------------
+# Hero
+--------------------------------------------------------------*/
+@import 'sections/hero';
+
+/*--------------------------------------------------------------
+# Features split
+--------------------------------------------------------------*/
+@import 'sections/features-split';
+
+/*--------------------------------------------------------------
+# Features tiles
+--------------------------------------------------------------*/
+@import 'sections/features-tiles';
+
+/*--------------------------------------------------------------
+# Testimonial
+--------------------------------------------------------------*/
+@import 'sections/testimonial';
+
+/*--------------------------------------------------------------
+# Call to action
+--------------------------------------------------------------*/
+@import 'sections/cta';
+
+.phone-btn {
+	background-color: #1cb68b;
+	color: black !important;
+	border-radius: 13px;
+}
+
+// cards
+.cards {
+	display: flex;
+	// flex-wrap: wrap;
+
+	.card {
+		background: white;
+		border-radius: 1rem;
+		padding: 3rem;
+		margin-left: -1rem;
+		box-shadow: 4px 4px 15px 2px rgba(black, 0.75);
+		transition: 0.2s;
+		display: grid;
+		place-items: center;
+		&:hover {
+			~ .card {
+				transform: translateX(4rem);
+			}
+
+			transform: translateY(-1rem);
+		}
+		.partner-img {
+			width: 140px;
+			height: 130px;
+		}
+	}
+	overflow-x: auto;
+}
+
+/* Slideshow */
+.slideshow {
+	margin: 0 auto;
+	overflow: hidden;
+	max-width: 500px;
+
+	.slideshowSlider {
+		white-space: nowrap;
+		transition: ease 1000ms;
+
+		.slide {
+			display: inline-block;
+			height: 400px;
+			width: 100%;
+			border-radius: 40px;
+		}
+	}
+}
+
+/* Buttons */
+.slideshowDots {
+	text-align: center;
+}
+.slideshowDot {
+	display: inline-block;
+	height: 20px;
+	width: 20px;
+	border-radius: 50%;
+	cursor: pointer;
+	margin: 15px 7px 0px;
+	background-color: #c4c4c4;
+}
+
+.text-center {
+	display: grid;
+	place-items: center;
+	font-weight: 600;
+}
+
+.service-cards {
+	display: flex;
+
+	.service-card {
+		margin-top: 1rem;
+		background: white;
+		border-radius: 1rem;
+		box-shadow: 4px 4px 15px 2px rgba(black, 0.75);
+		display: grid;
+		place-items: center;
+		width: 40%;
+		margin-left: 5%;
+
+		.service-img {
+			width: 80px;
+			height: 80px;
+		}
+
+		h6 {
+			color: black;
+			font-weight: 400;
+		}
+	}
+}
+
+.flex-row {
+	flex-direction: row;
+}
+.flex-col {
+	flex-direction: column;
+}
+
+.mobile-card {
+	width: 100% !important;
+}
+
+.flex-wrap {
+	flex-wrap: wrap;
+}
