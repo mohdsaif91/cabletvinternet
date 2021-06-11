@@ -44,6 +44,7 @@ const defaultProps = {
 	...SectionTilesProps.defaults,
 };
 const delay = 2500;
+const videoArray = [1, 2, 3];
 
 const FeaturesTiles = ({
 	className,
@@ -61,6 +62,13 @@ const FeaturesTiles = ({
 	const [mobileIndex, setMobileIndex] = useState(0);
 	const [service, setService] = useState(serviceData);
 	const [serviceIndex, setServiceIndex] = useState(0);
+	const [videoIndex, setVideoIndex] = useState(1);
+
+	useEffect(() => {
+		if (width <= 768) {
+			showSlides(videoIndex);
+		}
+	}, [videoIndex, width]);
 
 	const handleWindowSize = () => {
 		setWidth(window.innerWidth);
@@ -72,13 +80,35 @@ const FeaturesTiles = ({
 			setMobileIndex((prevIndex) => (prevIndex === data.length - 1 ? 0 : prevIndex + 1));
 		}, delay);
 		return () => window.removeEventListener('resize', handleWindowSize);
-	}, [mobileIndex]);
+	}, [mobileIndex, window.innerWidth]);
 
 	useEffect(() => {
 		setTimeout(() => {
 			setServiceIndex((prevIndex) => (prevIndex === service.length - 1 ? 0 : prevIndex + 1));
 		}, delay);
 	}, [serviceIndex]);
+
+	const showSlides = (n) => {
+		let i;
+		const slides = document.getElementsByClassName('mySlides-service');
+
+		if (n > slides.length) {
+			setVideoIndex(1);
+		}
+		if (n < 1) {
+			setVideoIndex(slides.length);
+		}
+
+		for (i = 0; i < slides.length; i++) {
+			slides[i].style.display = 'none';
+		}
+
+		slides[videoIndex - 1].style.display = 'block';
+	};
+
+	const plusSlides = (n) => {
+		setVideoIndex(n);
+	};
 
 	const outerClasses = classNames(
 		'features-tiles section',
@@ -108,23 +138,10 @@ const FeaturesTiles = ({
 
 	return (
 		<section {...props} className={outerClasses}>
-			<div className="container-fluid p-32">
+			<div className="container-fluid">
 				<span className="text-color-primary">
 					<SectionHeader data={partnerHeading} className="center-content h4" />
 				</span>
-				{/* <div className="slideshow">
-					<div
-						className="slideshowSlider"
-						style={{ transform: `translate3d(${-mobileIndex * 100}%,0,0)` }}
-					></div>
-					{colors.map((backgroundColor, index) => (
-						<div
-							className="slide"
-							key={index}
-							style={{ backgroundColor: `${backgroundColor}` }}
-						/>
-					))}
-				</div> */}
 				{width <= 768 ? (
 					<div className="slideshow">
 						<div
@@ -163,13 +180,86 @@ const FeaturesTiles = ({
 					<span className="text-color-primary">
 						<SectionHeader data={sectionHeader} className="center-content" />
 					</span>
-					{/* <div className="slideshow">
+					{width <= 768 ? (
 						<div
-							className="slideshowSlider"
-							style={{ transform: `translate3d(${-serviceIndex * 100}%, 0, 0)` }}
+							className="slideshow-container hero-figure reveal-from-bottom illustration-element-01"
+							data-reveal-value="20px"
+							data-reveal-delay="800"
 						>
+							<div className="mySlides-service fade one-service">
+								<div className={`service-cards`}>
+									<div
+										className={`service-card ${
+											width <= 768 ? 'mobile-card' : ''
+										}`}
+									>
+										<img
+											className="service-img"
+											src={require(`../../assets/images/wifiImage.jpg`)}
+										/>
+										<h6>{serviceData[0].serviceName}</h6>
+										<p className="text-color-primary p-8">
+											{serviceData[0].paragrap}
+										</p>
+									</div>
+								</div>
+							</div>
+							<div className="mySlides-service fade ">
+								<div className={`service-cards`}>
+									<div
+										className={`service-card ${
+											width <= 768 ? 'mobile-card' : ''
+										}`}
+									>
+										<img
+											className="service-img"
+											src={require(`../../assets/images/tv.png`)}
+										/>
+										<h6>{serviceData[1].serviceName}</h6>
+										<p className="text-color-primary p-8">
+											{serviceData[1].paragrap}
+										</p>
+									</div>
+								</div>
+							</div>
+							<div className="mySlides-service fade ">
+								<div className={`service-cards`}>
+									<div
+										className={`service-card ${
+											width <= 768 ? 'mobile-card' : ''
+										}`}
+									>
+										<img
+											className="service-img"
+											src={require(`../../assets/images/phone.png`)}
+										/>
+										<h6>{serviceData[2].serviceName}</h6>
+										<p className="text-color-primary p-8">
+											{serviceData[2].paragrap}
+										</p>
+									</div>
+								</div>
+							</div>
+							<div className="slideshowDots">
+								{videoArray.map((m) => (
+									<div
+										key={m}
+										className={`slideshowDot${
+											videoIndex === m ? ' active' : ''
+										}`}
+										onClick={() => {
+											plusSlides(m);
+										}}
+									></div>
+								))}
+							</div>
+						</div>
+					) : (
+						<div className={`service-cards ${width <= 768 ? 'flex-wrap' : 'flex-row'}`}>
 							{service.map((m) => (
-								<div>
+								<div
+									className={`service-card ${width <= 768 ? 'mobile-card' : ''}`}
+								>
 									<img
 										className="service-img"
 										src={require(`../../assets/images/${m.imgName}`)}
@@ -179,19 +269,7 @@ const FeaturesTiles = ({
 								</div>
 							))}
 						</div>
-					</div> */}
-					<div className={`service-cards ${width <= 768 ? 'flex-wrap' : 'flex-row'}`}>
-						{service.map((m) => (
-							<div className={`service-card ${width <= 768 ? 'mobile-card' : ''}`}>
-								<img
-									className="service-img"
-									src={require(`../../assets/images/${m.imgName}`)}
-								/>
-								<h6>{m.serviceName}</h6>
-								<p className="text-color-primary p-8">{m.paragrap}</p>
-							</div>
-						))}
-					</div>
+					)}
 					<div className={tilesClasses}>
 						<div className="tiles-item reveal-from-bottom">
 							<div className="tiles-item-inner">
