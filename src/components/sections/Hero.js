@@ -65,6 +65,10 @@ const Hero = ({
 		setVideoIndex(n);
 	};
 
+	const goToForm = () => {
+		window.scroll(0, 7799);
+	};
+
 	return (
 		<section {...props} className={outerClasses}>
 			<div className="container-sm">
@@ -134,6 +138,9 @@ const Hero = ({
 								></div>
 							))}
 							<br />
+							<button className="btn-tablink mt-16" onClick={() => goToForm()}>
+								Book An Inquery
+							</button>
 						</section>
 					</div>
 				</div>
