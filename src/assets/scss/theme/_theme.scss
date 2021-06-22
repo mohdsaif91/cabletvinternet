@@ -478,7 +478,7 @@ img {
 
 		.card__content {
 			position: relative;
-			background-color: var(--container-color);
+			background-color: #25282c;
 			padding: 2rem 0.5rem 0.5rem;
 			border-radius: 1.75rem;
 			box-shadow: 0 12px 24px hsla(var(--hue-color), 61%, 16%, 0.1);
@@ -517,6 +517,10 @@ img {
 		display: grid;
 	}
 }
+.mobile-slide {
+	height: 80px;
+	width: 80px;
+}
 //button-tab
 .tab-container {
 	padding: 1rem;
@@ -527,17 +531,33 @@ img {
 		opacity: 0.5;
 	}
 }
+.mobile-btn-tablink {
+	padding: 4px 5px;
+	font-size: 24px;
+	text-align: center;
+	cursor: pointer;
+	outline: none;
+	color: black;
+	background-color: #1cb68b;
+	border: none;
+	border-radius: 15px;
+	margin-right: 20px;
+}
 .btn-tablink {
 	padding: 15px 25px;
 	font-size: 24px;
 	text-align: center;
 	cursor: pointer;
 	outline: none;
-	color: #fff;
-	background-color: #5658dd;
+	color: black;
+	background-color: #1cb68b;
 	border: none;
 	border-radius: 15px;
 	margin-right: 20px;
+}
+.d-flex-col {
+	display: flex;
+	flex-direction: column;
 }
 
 /*==================== CARD PRICING ====================*/
@@ -577,7 +597,7 @@ img {
 
 .card__header-title {
 	font-size: var(--biggest-font-size);
-	color: var(--title-color);
+	color: #1cb68b;
 	margin-bottom: var(--mb-1);
 }
 
@@ -700,4 +720,8 @@ img {
 
 .tab-container {
 	padding: 1rem;
+}
+
+.card__list-description {
+	color: white !important;
 }

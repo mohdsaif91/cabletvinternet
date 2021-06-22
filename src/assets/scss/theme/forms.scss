@@ -1,0 +1,151 @@
+.col {
+	display: flex;
+	flex-direction: column;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+}
+
+.customer-form {
+	.main {
+		.w-50 {
+			width: 50%;
+		}
+		.w-100 {
+			width: 100%;
+		}
+		.left {
+			display: grid;
+			place-items: center;
+		}
+		.right {
+			.input-container {
+				.check-box-container {
+					width: 100%;
+					.checkbox-label {
+						font-weight: 600;
+						margin-top: -4px;
+						color: white;
+					}
+				}
+			}
+		}
+		.send-btn-cont {
+			.send-btn {
+				width: 100%;
+				background-color: #1cb68b !important;
+				color: black;
+			}
+		}
+	}
+}
+
+.mt-10 {
+	margin-top: 10px;
+}
+.ht-gap-1 {
+	height: 1.5rem;
+}
+.error-text {
+	color: #e82620;
+}
+.btn-disable {
+	opacity: 0.7;
+}
+
+.input-container {
+	.text-left {
+		text-align: left;
+	}
+	.form__group {
+		font-family: 'Roboto', sans-serif;
+		display: block;
+		transition: all 0.3s;
+		.form__label {
+			font-size: 1.2rem;
+			margin-left: 2rem;
+			margin-top: 0.7rem;
+			transform: translateY(0rem);
+		}
+
+		.form__input {
+			color: #333;
+			font-size: 1rem;
+			margin: 0 auto;
+			padding: 0.7rem;
+			border-radius: 0.2rem;
+			background-color: rgb(255, 255, 255);
+			border: none;
+			width: 100%;
+			border-bottom: 0.3rem solid transparent;
+		}
+	}
+}
+
+.form__input:placeholder-shown + .form__label {
+	opacity: 0;
+	visibility: hidden;
+	-webkit-transform: translateY(-4rem);
+	transform: translateY(-4rem);
+}
+
+$checkbox-size: 1rem;
+
+input[type='checkbox'].checkbox {
+	appearance: none;
+	width: $checkbox-size;
+	height: $checkbox-size;
+	position: relative;
+
+	&::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		color: rgba(white, 0);
+		background-color: white;
+		border-radius: 3px;
+		font: {
+			size: 0rem;
+			weight: bolder;
+		}
+		line-height: $checkbox-size;
+		text-align: center;
+		transition: background-color 350ms 0ms ease, color 350ms 250ms ease,
+			font-size 350ms 250ms ease;
+	}
+
+	&:checked::after {
+		content: '\02714';
+		color: rgba(white, 1);
+		font-size: 1rem;
+	}
+}
+
+// body {
+// 	padding: 4rem;
+// 	color: grey;
+// 	font: {
+// 		family: sans-serif;
+// 		weight: bold;
+// 	}
+// }
+
+// label {
+// 	display: block;
+// 	line-height: $checkbox-size;
+// 	text-transform: uppercase;
+// }
+
+.fieldset {
+	display: flex;
+	flex-flow: row nowrap;
+
+	> * {
+		margin-right: 1rem;
+	}
+}

@@ -66,7 +66,8 @@ const Hero = ({
 	};
 
 	const goToForm = () => {
-		window.scroll(0, 7799);
+		window.scroll(0, 1950);
+		// 7799
 	};
 
 	return (

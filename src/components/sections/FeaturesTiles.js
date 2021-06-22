@@ -270,7 +270,7 @@ const FeaturesTiles = ({
 							))}
 						</div>
 					)}
-					<div className={tilesClasses}>
+					{/* <div className={tilesClasses}>
 						<div className="tiles-item reveal-from-bottom">
 							<div className="tiles-item-inner">
 								<div className="features-tiles-item-header">
@@ -408,7 +408,7 @@ const FeaturesTiles = ({
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</section>

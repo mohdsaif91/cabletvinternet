@@ -25,10 +25,7 @@ const Testimonial = ({
 	...props
 }) => {
 	const [tab, setTab] = useState(0);
-
-	// useEffect(() => {
-	//   set
-	// }, [tab]);
+	const [width, setWidth] = useState(window.innerWidth);
 
 	const outerClasses = classNames(
 		'testimonial section',
@@ -45,6 +42,15 @@ const Testimonial = ({
 		bottomDivider && 'has-bottom-divider'
 	);
 
+	const handleWindowSize = () => {
+		setWidth(window.innerWidth);
+	};
+
+	useEffect(() => {
+		window.addEventListener('resize', handleWindowSize);
+		return () => window.removeEventListener('resize', handleWindowSize);
+	}, []);
+
 	const tilesClasses = classNames('tiles-wrap', pushLeft && 'push-left');
 
 	const sectionHeader = {
@@ -53,32 +59,71 @@ const Testimonial = ({
 			'Vitae aliquet nec ullamcorper sit amet risus nullam eget felis semper quis lectus nulla at volutpat diam ut venenatis tellus—in ornare.',
 	};
 
+	const mobile = width <= 768 ? true : false;
+
 	return (
 		<section {...props} className={outerClasses}>
 			<div className="container">
-				<div className="tab-container">
+				<div className="tab-container mt-16">
 					<button
 						id={0}
-						className={`btn-tablink ${tab === 0 ? '' : 'opacity'}`}
+						className={`${mobile ? 'mobile-btn-tablink' : 'btn-tablink'}  ${
+							tab === 0 ? '' : 'opacity'
+						}`}
 						onClick={(e) => setTab(parseInt(e.target.id))}
 					>
-						Cable
+						{mobile ? (
+							<img
+								id={0}
+								onClick={(e) => setTab(parseInt(e.target.id))}
+								key={0}
+								style={{ borderRadius: '1rem' }}
+								className="mobile-slide"
+								src={require(`../../assets/images/tv.png`)}
+							/>
+						) : (
+							'Cable'
+						)}
 					</button>
 					<button
 						id={1}
-						// id="internet"
-						className={`btn-tablink ${tab === 1 ? '' : 'opacity'}`}
+						className={`${mobile ? 'mobile-btn-tablink' : 'btn-tablink'}  ${
+							tab === 0 ? '' : 'opacity'
+						}`}
 						onClick={(e) => setTab(parseInt(e.target.id))}
 					>
-						Internet
+						{mobile ? (
+							<img
+								id={1}
+								onClick={(e) => setTab(parseInt(e.target.id))}
+								key={1}
+								style={{ borderRadius: '1rem' }}
+								className="mobile-slide"
+								src={require(`../../assets/images/wifiImage.jpg`)}
+							/>
+						) : (
+							'Internet'
+						)}
 					</button>
 					<button
 						id={2}
-						//  id="phone"
-						className={`btn-tablink ${tab === 2 ? '' : 'opacity'}`}
+						className={`${mobile ? 'mobile-btn-tablink' : 'btn-tablink'}  ${
+							tab === 0 ? '' : 'opacity'
+						}`}
 						onClick={(e) => setTab(parseInt(e.target.id))}
 					>
-						Phone
+						{mobile ? (
+							<img
+								id={2}
+								onClick={(e) => setTab(parseInt(e.target.id))}
+								key={1}
+								style={{ borderRadius: '1rem' }}
+								className="mobile-slide"
+								src={require(`../../assets/images/phone.png`)}
+							/>
+						) : (
+							'Phone'
+						)}
 					</button>
 				</div>
 				<div>

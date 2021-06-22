@@ -103,6 +103,7 @@ const initialData = [
 ];
 
 export default function OfferCards({ tab }) {
+	console.log(tab);
 	const [data] = useState({ ...initialData });
 
 	return (
@@ -129,7 +130,12 @@ export default function OfferCards({ tab }) {
 									/>
 								</div>
 
-								<span className="card__header-subtitle">{subtitle}</span>
+								<span
+									className="card__header-subtitle"
+									style={{ color: '#1CB68B' }}
+								>
+									{subtitle}
+								</span>
 								<h3 className="card__header-title">{planName}</h3>
 							</header>
 

@@ -1,29 +1,28 @@
 .cta {
-
-    .form-input {
-        border-color: transparent;
-        border-radius: 2px;
-    }
+	.form-input {
+		border-color: transparent;
+		border-radius: 2px;
+	}
 }
 
 .cta-inner {
 	padding-left: 16px;
 	padding-right: 16px;
-    background-color: get-color(primary, 3);
+	background-color: #25282c;
 	background-image: url(../../../images/cta-illustration.svg);
 	background-repeat: no-repeat;
-    background-size: cover;
-    background-position: right bottom;    
+	background-size: cover;
+	background-position: right bottom;
+	border: 3px solid;
+	border-radius: 22px;
 }
 
-@include media( '>medium' ) {
-
-.cta {
-
-    .form-input {
-        min-width: 280px;
-    }
-}    
+@include media('>medium') {
+	.cta {
+		.form-input {
+			min-width: 280px;
+		}
+	}
 
 	.cta-inner {
 		padding-left: 48px;
