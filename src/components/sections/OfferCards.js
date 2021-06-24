@@ -103,7 +103,6 @@ const initialData = [
 ];
 
 export default function OfferCards({ tab }) {
-	console.log(tab);
 	const [data] = useState({ ...initialData });
 
 	return (

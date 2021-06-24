@@ -1,7 +1,9 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { SectionProps } from '../../utils/SectionProps';
+
+import { CustomerContext } from '../../Context/state/CustomerState';
 
 const propTypes = {
 	...SectionProps.types,
@@ -17,9 +19,11 @@ const initialFormData = {
 	fullName: '',
 	phoneNumber: 0,
 	email: '',
-	planeTypeCommercial: '',
-	planeTypeResidential: '',
-	serviceType: '',
+	planeTypeCommercial: false,
+	planeTypeResidential: false,
+	serviceTypePhone: false,
+	serviceTypeCableTv: false,
+	serviceTypeInternet: false,
 };
 
 const errorData = {
@@ -45,6 +49,10 @@ const errorData = {
 	},
 	error: false,
 };
+const checkboxData = {
+	checkPlan: false,
+	checkService: false,
+};
 
 const Cta = ({
 	className,
@@ -60,6 +68,9 @@ const Cta = ({
 	const [width, setWidth] = useState(window.innerWidth);
 	const [formdata, setFormData] = useState({ ...initialFormData });
 	const [error, setError] = useState({ ...errorData });
+	const [validCheckBox, setValidCheckBox] = useState({ ...checkboxData });
+
+	const { addCustomer } = useContext(CustomerContext);
 
 	useEffect(() => {
 		window.addEventListener('resize', handleWindowSize);
@@ -86,70 +97,137 @@ const Cta = ({
 		split && 'cta-split'
 	);
 
-	const validatePhonenumber = (number) => {
-		if (/d{10}/.test(parseInt(number))) {
-			setFormData({ ...formdata, phoneNumber: number });
-		} else {
-		}
-	};
-
 	const updateForm = (type, value) => {
-		switch (type) {
+		switch (true) {
 			case type === 'fullName':
-				// const fullName=error.fullName
+				const fullNameError = {
+					msg: error.fullName.msg,
+					show: value.trim() === '',
+				};
 				value.trim() === ''
-					? setError({ ...error })
-					: setFormData({ ...formdata, fullName: value });
+					? setError({ ...error, fullName: fullNameError, error: true })
+					: setFormData({ ...formdata, fullName: value, error: false });
 
 				break;
 			case type === 'phoneNumber':
-				setFormData({ ...formdata, phoneNumber: parseInt(value) });
+				const phoneRegex = /^\d{10}$/;
+				let phoneNumberError = {};
+				if (value.trim() === '') {
+					phoneNumberError = {
+						msg: 'Phone Number Cannot be null',
+						show: true,
+					};
+					setError({ ...error, phoneNumber: phoneNumberError, error: true });
+				} else if (phoneRegex.test(value)) {
+					phoneNumberError = {
+						msg: '',
+						show: false,
+					};
+					setFormData({ ...formdata, phoneNumber: parseInt(value), error: false });
+					setError({ ...error, phoneNumber: phoneNumberError });
+				} else {
+					phoneNumberError = {
+						msg: 'Not A Phone Number',
+						show: true,
+					};
+					setError({ ...error, phoneNumber: phoneNumberError, error: true });
+				}
 				break;
 			case type === 'email':
-				setFormData({ ...formdata, email: value });
+				let emailError = {};
+				const emailRegex =
+					/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				if (value.trim() === '') {
+					emailError = {
+						msg: 'Email Cannot be null',
+						show: true,
+					};
+					setError({ ...error, email: emailError, error: true });
+				} else if (emailRegex.test(value)) {
+					emailError = {
+						msg: '',
+						show: false,
+					};
+					setError({ ...error, email: emailError, error: false });
+					setFormData({ ...formdata, email: value });
+				} else {
+					emailError = {
+						msg: 'Not an email',
+						show: true,
+					};
+					setError({ ...error, email: emailError, error: true });
+				}
 				break;
-			case type === 'fullName':
-				setFormData({ ...formdata, fullName: value });
+			case type === 'residential':
+				setFormData({ ...formdata, planeTypeResidential: value });
 				break;
-			case type === 'fullName':
-				setFormData({ ...formdata, fullName: value });
+			case type === 'commercial':
+				setFormData({ ...formdata, planeTypeCommercial: value });
 				break;
-			case type === 'fullName':
-				setFormData({ ...formdata, fullName: value });
+			case type === 'phone':
+				setFormData({ ...formdata, serviceTypePhone: value });
+				break;
+			case type === 'CabelTV':
+				setFormData({ ...formdata, serviceTypeCableTv: value });
+				break;
+			case type === 'internet':
+				setFormData({ ...formdata, serviceTypeInternet: value });
 				break;
 		}
 	};
 
 	const sendData = (e) => {
 		e.preventDefault();
-		if (error.error) {
+		const {
+			planeTypeCommercial,
+			planeTypeResidential,
+			serviceTypePhone,
+			serviceTypeCableTv,
+			serviceTypeInternet,
+		} = formdata;
+		if (planeTypeCommercial === false && planeTypeResidential === false) {
+			setValidCheckBox({ ...checkboxData, checkPlan: true });
+			return;
+		} else if (
+			serviceTypePhone === false &&
+			serviceTypeCableTv === false &&
+			serviceTypeInternet === false
+		) {
+			setValidCheckBox({ ...checkboxData, checkService: true });
+			return;
+		} else {
+			addCustomer(formdata);
+			setFormData({ ...initialFormData });
 		}
-		console.log('will get data', formdata);
 	};
 
 	const mobile = width <= 768 ? true : false;
-	console.log(mobile, '<>?', width);
+
 	return (
 		<section {...props} className={outerClasses}>
 			<div className="container">
 				<div className={innerClasses}>
 					<form className="customer-form">
-						<div className={`main ${mobile ? 'col' : 'row'}`}>
-							<section className={`left ${mobile ? 'w-100' : 'w-50'} mr-32`}>
+						<div className="form-heading">
+							<h2>Talk to a Pro Today!</h2>
+						</div>
+						<div className={`main-sub-heading ${mobile ? '' : 'm3rem text-center'} `}>
+							Get all your burning questions answered by a professional. Fill out the
+							form below and our team will be in-touch shortly!
+						</div>
+						<div className={`main mt-16 ${mobile ? 'col' : 'row'}`}>
+							<section className={`left ${mobile ? 'w-100' : 'w-50'} mr-40`}>
 								<div className="input-container">
 									<div className="form__group">
+										<div className="test-label">
+											<div className="main-text">Full Name</div>
+											<div className="required">Required</div>
+										</div>
 										<input
 											type="text"
 											className="form__input"
 											id="name"
-											onChange={
-												(e) => updateForm('fullName', e.target.value)
-												// setFormData({
-												// 	...formdata,
-												// 	fullName: e.target.value,
-												// })
-											}
-											placeholder="Full name"
+											onChange={(e) => updateForm('fullName', e.target.value)}
 										/>
 										<div className="ht-gap-1">
 											{error.fullName.show && (
@@ -158,11 +236,14 @@ const Cta = ({
 										</div>
 									</div>
 									<div className="form__group">
+										<div className="test-label">
+											<div className="main-text">Phone Number</div>
+											<div className="required">Required</div>
+										</div>
 										<input
 											type="text"
 											className="form__input"
 											id="name"
-											placeholder="Phone Number"
 											onChange={(e) =>
 												updateForm('phoneNumber', e.target.value)
 											}
@@ -176,11 +257,14 @@ const Cta = ({
 										</div>
 									</div>
 									<div className="form__group">
+										<div className="test-label">
+											<div className="main-text">Email</div>
+											<div className="required">Required</div>
+										</div>
 										<input
 											type="text"
 											className="form__input"
 											id="name"
-											placeholder="Email"
 											onChange={(e) => updateForm('email', e.target.value)}
 										/>
 										<div className="ht-gap-1">
@@ -201,8 +285,9 @@ const Cta = ({
 											type="checkbox"
 											className="checkbox mr-4"
 											id="Residential"
+											checked={formdata.planeTypeResidential}
 											onChange={(e) =>
-												updateForm('planType', e.target.checked)
+												updateForm('residential', e.target.checked)
 											}
 										/>
 										<label for="Residential" className="checkbox-label mr-16">
@@ -212,14 +297,18 @@ const Cta = ({
 											type="checkbox"
 											className="checkbox mr-4"
 											id="Commercial"
+											checked={formdata.planeTypeCommercial}
 											onChange={(e) =>
-												updateForm('planType', e.target.checked)
+												updateForm('commercial', e.target.checked)
 											}
 										/>
 										<label for="Commercial" className="checkbox-label mr-16">
 											Commercial
 										</label>
 									</div>
+									{validCheckBox.checkPlan && (
+										<p className="error-text">Please choose one</p>
+									)}
 									<div className="text-left">
 										<h3 style={{ color: '#1cb68b' }}>Service Type</h3>
 									</div>
@@ -227,42 +316,65 @@ const Cta = ({
 										<input
 											type="checkbox"
 											className="checkbox mr-4"
-											id="Residential"
+											id="Phone"
+											checked={formdata.serviceTypePhone}
+											onChange={(e) => updateForm('phone', e.target.checked)}
 										/>
-										<label for="Residential" className="checkbox-label mr-16">
+										<label for="Phone" className="checkbox-label mr-16">
 											Phone
 										</label>
 										<input
 											type="checkbox"
 											className="checkbox mr-4"
-											id="Commercial"
+											id="CabelTV"
+											checked={formdata.serviceTypeCableTv}
+											onChange={(e) =>
+												updateForm('CabelTV', e.target.checked)
+											}
 										/>
-										<label for="Commercial" className="checkbox-label">
+										<label for="CabelTV" className="checkbox-label mr-16">
 											Cabel TV
 										</label>
 										<input
 											type="checkbox"
 											className="checkbox mr-4"
-											id="Commercial"
+											id="Internet"
+											checked={formdata.serviceTypeInternet}
+											onChange={(e) =>
+												updateForm('internet', e.target.checked)
+											}
 										/>
-										<label for="Commercial" className="checkbox-label">
+										<label for="Internet" className="checkbox-label">
 											Internet
 										</label>
 									</div>
+									{validCheckBox.checkService && (
+										<p className="error-text">Please choose one</p>
+									)}
 								</div>
 								<div className="send-btn-cont mt-32">
 									<button
-										className={`btn-tablink send-btn ${
+										data-tip
+										data-for="notification-info-confirmation-precheck"
+										className={`btn btn-tablink send-btn ${
 											error.error && 'opacity'
 										}`}
 										onClick={(e) => sendData(e)}
-										disabled={true}
+										disabled={error.error}
 									>
 										Send
 									</button>
 								</div>
 								{error.error && <p className="error-text">Form is invalid</p>}
 							</section>
+						</div>
+						<div className={`form-policy ${mobile ? '' : 'm3rem'}`}>
+							<br /> By clicking the submit button above and submitting this form, I
+							acknowledge that I permit Support 360 to use my information provided to
+							search for their best current offers for telecom services. I also allow
+							Support 360 express consent to contact me at the number and/or email
+							address I have provided above with automated technology in relation to
+							this inquiry via phone or e-mail.
 						</div>
 					</form>
 				</div>

@@ -26,6 +26,7 @@ const Testimonial = ({
 }) => {
 	const [tab, setTab] = useState(0);
 	const [width, setWidth] = useState(window.innerWidth);
+	const [resCom, setResCom] = useState(1);
 
 	const outerClasses = classNames(
 		'testimonial section',
@@ -59,15 +60,55 @@ const Testimonial = ({
 			'Vitae aliquet nec ullamcorper sit amet risus nullam eget felis semper quis lectus nulla at volutpat diam ut venenatis tellus—in ornare.',
 	};
 
+	const resi = {
+		title: 'Residential',
+		paragraph:
+			'Get the best in television, high-speed internet, and phone service to transform your business atmosphere. We offer a variety of business options, so you can choose the service package that fits your business needs. With standard professional installation, up to 4 free HD receivers, HD access at no extra cost, and music choice for the first 3 months, you’ll be glad you made the best choice for your business.',
+	};
+
+	const comm = {
+		title: 'Commercial',
+		paragraph:
+			'Bundle and save on media and entertainment packages for your business or organization. Get fast, reliable internet, popular TV channels, and phone service. Check out our commercial plans and bundle to save.',
+	};
+
 	const mobile = width <= 768 ? true : false;
 
 	return (
 		<section {...props} className={outerClasses}>
 			<div className="container">
-				<div className="tab-container mt-16">
+				<h3 style={{ textAlign: 'center' }}>Find the best prices for top rated service </h3>
+				<h5 style={{ textAlign: 'center' }}>
+					Searching for local internet, TV, and phone deals can be tough, but we make
+					choosing the best plan easy.
+				</h5>
+				<div className={`three-box ${mobile ? '' : 'row'}`}>
+					<div className={`box ${mobile ? '' : 'vertical'}`}>
+						<h5>Free Local Plan Comparisons </h5>
+						<p>
+							Shop smarter and faster by comparing plans and setting up service all in
+							one place
+						</p>
+					</div>
+					<div className={`box ${mobile ? '' : 'vertical'}`}>
+						<h5>Choose From Top Providers</h5>
+						<p>
+							We partner with the best service providers for TV, Internet, Phone, &
+							more
+						</p>
+					</div>
+					<div className={`box ${mobile ? '' : 'vertical'}`}>
+						<h5>Experts You Can Trust</h5>
+						<p>
+							Thousands of customers per year trust us to help connect them with the
+							right plan
+						</p>
+					</div>
+				</div>
+				<div className="tab-container mt-32">
 					<button
 						id={0}
-						className={`${mobile ? 'mobile-btn-tablink' : 'btn-tablink'}  ${
+						className={`btn ${mobile ? 'mobile-btn-tablink' : 'btn-tablink'}  ${
 							tab === 0 ? '' : 'opacity'
 						}`}
 						onClick={(e) => setTab(parseInt(e.target.id))}
@@ -87,8 +128,8 @@ const Testimonial = ({
 					</button>
 					<button
 						id={1}
-						className={`${mobile ? 'mobile-btn-tablink' : 'btn-tablink'}  ${
-							tab === 0 ? '' : 'opacity'
+						className={`btn ${mobile ? 'mobile-btn-tablink' : 'btn-tablink'}  ${
+							tab === 1 ? '' : 'opacity'
 						}`}
 						onClick={(e) => setTab(parseInt(e.target.id))}
 					>
@@ -107,8 +148,8 @@ const Testimonial = ({
 					</button>
 					<button
 						id={2}
-						className={`${mobile ? 'mobile-btn-tablink' : 'btn-tablink'}  ${
-							tab === 0 ? '' : 'opacity'
+						className={`btn ${mobile ? 'mobile-btn-tablink' : 'btn-tablink'}  ${
+							tab === 2 ? '' : 'opacity'
 						}`}
 						onClick={(e) => setTab(parseInt(e.target.id))}
 					>
@@ -131,7 +172,30 @@ const Testimonial = ({
 						<OfferCards tab={tab} />
 					</section>
 				</div>
-				<div className={innerClasses}>
+				<div>
+					<section className="tab-container-com-res">
+						<div className="tab-com-res">
+							<button
+								className={`btn tab-btn-com ${resCom !== 1 ? 'active' : ''}`}
+								onClick={() => setResCom(1)}
+							>
+								Commercial
+							</button>
+							<button
+								className={`btn tab-btn-com ${resCom !== 2 ? 'active' : ''}`}
+								onClick={() => setResCom(2)}
+							>
+								Residential
+							</button>
+						</div>
+						<SectionHeader
+							data={resCom === 1 ? comm : resi}
+							className="center-content left"
+						/>
+					</section>
+				</div>
+
+				{/* <div className={innerClasses}>
 					<SectionHeader data={sectionHeader} className="center-content" />
 					<div className={tilesClasses}>
 						<div className="tiles-item reveal-from-right" data-reveal-delay="200">
@@ -200,7 +264,7 @@ const Testimonial = ({
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> */}
 			</div>
 		</section>
 	);

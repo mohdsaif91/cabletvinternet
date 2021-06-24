@@ -531,8 +531,8 @@ img {
 		opacity: 0.5;
 	}
 }
-.mobile-btn-tablink {
-	padding: 4px 5px;
+
+.btn {
 	font-size: 24px;
 	text-align: center;
 	cursor: pointer;
@@ -541,18 +541,14 @@ img {
 	background-color: #1cb68b;
 	border: none;
 	border-radius: 15px;
+}
+
+.mobile-btn-tablink {
+	padding: 4px 5px;
 	margin-right: 20px;
 }
 .btn-tablink {
 	padding: 15px 25px;
-	font-size: 24px;
-	text-align: center;
-	cursor: pointer;
-	outline: none;
-	color: black;
-	background-color: #1cb68b;
-	border: none;
-	border-radius: 15px;
 	margin-right: 20px;
 }
 .d-flex-col {
@@ -561,9 +557,6 @@ img {
 }
 
 /*==================== CARD PRICING ====================*/
-.offer-card {
-	padding: 3rem 0;
-}
 
 // .card__container {
 // 	gap: 3rem 1.25rem;
@@ -724,4 +717,47 @@ img {
 
 .card__list-description {
 	color: white !important;
+}
+
+.test-label {
+	display: flex;
+	justify-content: space-between;
+	.main-text {
+		font-weight: 600;
+	}
+	.required {
+		font-size: 15px;
+	}
+}
+
+.tab-container-com-res {
+	display: grid;
+	place-items: center;
+	background-color: #25282c;
+	border-radius: 10px;
+	margin-bottom: 50px;
+	.tab-com-res {
+		.left {
+			text-align: left !important;
+		}
+		.tab-btn-com {
+			margin-top: 20px;
+			margin-bottom: 20px;
+			padding: 10px;
+			border-radius: 5px;
+			border: 1px solid black;
+		}
+	}
+}
+.active {
+	background-color: white;
+}
+
+.main {
+	font-size: 18px;
+	// margin-left: 3rem;
+	// margin-right: 3rem;
+}
+.form-heading {
+	text-align: center;
 }

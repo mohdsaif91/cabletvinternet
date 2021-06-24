@@ -139,7 +139,7 @@ const Hero = ({
 								></div>
 							))}
 							<br />
-							<button className="btn-tablink mt-16" onClick={() => goToForm()}>
+							<button className="btn btn-tablink mt-16" onClick={() => goToForm()}>
 								Book An Inquery
 							</button>
 						</section>

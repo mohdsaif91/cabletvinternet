@@ -7,8 +7,18 @@
 	display: flex;
 	flex-direction: row;
 }
+.m3rem {
+	margin-left: 3rem;
+	margin-right: 3rem;
+}
+.text-center {
+	text-align: center;
+}
 
 .customer-form {
+	.main-sub-heading {
+		font-size: 16px;
+	}
 	.main {
 		.w-50 {
 			width: 50%;
@@ -39,6 +49,26 @@
 				color: black;
 			}
 		}
+	}
+}
+.form-policy {
+	font-size: 10px;
+	line-height: 18px !important;
+	color: #fcfcfc;
+}
+
+.vertical {
+	border-right: 1px solid;
+}
+
+.three-box {
+	border-radius: 3px;
+	border: 1px solid;
+	text-align: center;
+	background-color: #25282c;
+
+	.box {
+		border-top: 1px solid;
 	}
 }
 
@@ -115,13 +145,12 @@ input[type='checkbox'].checkbox {
 		}
 		line-height: $checkbox-size;
 		text-align: center;
-		transition: background-color 350ms 0ms ease, color 350ms 250ms ease,
-			font-size 350ms 250ms ease;
 	}
 
 	&:checked::after {
 		content: '\02714';
-		color: rgba(white, 1);
+		// color: rgba(rgb(228, 64, 64), 1);
+		color: #1cb68b;
 		font-size: 1rem;
 	}
 }
