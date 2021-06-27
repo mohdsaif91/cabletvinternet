@@ -47,6 +47,13 @@
 				width: 100%;
 				background-color: #1cb68b !important;
 				color: black;
+				justify-content: center;
+				display: flex;
+
+				.loading-img {
+					height: 25% !important;
+					width: 25% !important;
+				}
 			}
 		}
 	}

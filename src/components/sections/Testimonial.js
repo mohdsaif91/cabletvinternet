@@ -77,28 +77,30 @@ const Testimonial = ({
 	return (
 		<section {...props} className={outerClasses}>
 			<div className="container">
-				<h3 style={{ textAlign: 'center' }}>Find the best prices for top rated service </h3>
+				<h3 style={{ color: '#1cb68b', textAlign: 'center' }}>
+					Find the best prices for top rated service{' '}
+				</h3>
 				<h5 style={{ textAlign: 'center' }}>
 					Searching for local internet, TV, and phone deals can be tough, but we make
 					choosing the best plan easy.
 				</h5>
 				<div className={`three-box ${mobile ? '' : 'row'}`}>
 					<div className={`box ${mobile ? '' : 'vertical'}`}>
-						<h5>Free Local Plan Comparisons </h5>
+						<h5 style={{ color: '#1cb68b' }}>Free Local Plan Comparisons </h5>
 						<p>
 							Shop smarter and faster by comparing plans and setting up service all in
 							one place
 						</p>
 					</div>
 					<div className={`box ${mobile ? '' : 'vertical'}`}>
-						<h5>Choose From Top Providers</h5>
+						<h5 style={{ color: '#1cb68b' }}>Choose From Top Providers</h5>
 						<p>
 							We partner with the best service providers for TV, Internet, Phone, &
 							more
 						</p>
 					</div>
 					<div className={`box ${mobile ? '' : 'vertical'}`}>
-						<h5>Experts You Can Trust</h5>
+						<h5 style={{ color: '#1cb68b' }}>Experts You Can Trust</h5>
 						<p>
 							Thousands of customers per year trust us to help connect them with the
 							right plan
@@ -173,7 +175,7 @@ const Testimonial = ({
 					</section>
 				</div>
 				<div>
-					<section className="tab-container-com-res">
+					<section className="tab-container-com-res mt-32">
 						<div className="tab-com-res">
 							<button
 								className={`btn tab-btn-com ${resCom !== 1 ? 'active' : ''}`}
@@ -194,7 +196,6 @@ const Testimonial = ({
 						/>
 					</section>
 				</div>
-
 				{/* <div className={innerClasses}>
 					<SectionHeader data={sectionHeader} className="center-content" />
 					<div className={tilesClasses}>

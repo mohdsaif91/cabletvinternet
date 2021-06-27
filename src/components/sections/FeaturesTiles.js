@@ -177,8 +177,8 @@ const FeaturesTiles = ({
 			</div>
 			<div className="container">
 				<div className={innerClasses}>
-					<span className="text-color-primary">
-						<SectionHeader data={sectionHeader} className="center-content" />
+					<span>
+						<SectionHeader data={sectionHeader} className="center-content mt-32" />
 					</span>
 					{width <= 768 ? (
 						<div

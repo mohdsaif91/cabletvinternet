@@ -80,7 +80,7 @@ const Header = ({
 						bottomDivider && 'has-bottom-divider'
 					)}
 				>
-					<h4>Support 360</h4>
+					<h4 style={{ color: '#1cb68b' }}>Support 360</h4>
 					{!hideNav && (
 						<>
 							<nav

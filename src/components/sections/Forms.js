@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { SectionProps } from '../../utils/SectionProps';
 
+import { SectionProps } from '../../utils/SectionProps';
 import { CustomerContext } from '../../Context/state/CustomerState';
+import loadingImage from '../../assets/images/loading.gif';
 
 const propTypes = {
 	...SectionProps.types,
@@ -70,12 +71,25 @@ const Cta = ({
 	const [error, setError] = useState({ ...errorData });
 	const [validCheckBox, setValidCheckBox] = useState({ ...checkboxData });
 
-	const { addCustomer } = useContext(CustomerContext);
+	const { addCustomer, addError, loading } = useContext(CustomerContext);
 
 	useEffect(() => {
+		if (loading) {
+			setFormData({
+				...formdata,
+				email: '',
+				phoneNumber: null,
+				fullName: '',
+				planeTypeCommercial: false,
+				planeTypeResidential: false,
+				serviceTypePhone: false,
+				serviceTypeCableTv: false,
+				serviceTypeInternet: false,
+			});
+		}
 		window.addEventListener('resize', handleWindowSize);
 		return () => window.removeEventListener('resize', handleWindowSize);
-	}, []);
+	}, [loading]);
 
 	const handleWindowSize = () => {
 		setWidth(window.innerWidth);
@@ -197,7 +211,7 @@ const Cta = ({
 			return;
 		} else {
 			addCustomer(formdata);
-			setFormData({ ...initialFormData });
+			// setFormData({ ...initialFormData });
 		}
 	};
 
@@ -209,7 +223,8 @@ const Cta = ({
 				<div className={innerClasses}>
 					<form className="customer-form">
 						<div className="form-heading">
-							<h2>Talk to a Pro Today!</h2>
+							<h2 style={{ color: '#1cb68b' }}>Supports 360</h2>
+							<h4>Talk to a Pro Today!</h4>
 						</div>
 						<div className={`main-sub-heading ${mobile ? '' : 'm3rem text-center'} `}>
 							Get all your burning questions answered by a professional. Fill out the
@@ -362,9 +377,18 @@ const Cta = ({
 										onClick={(e) => sendData(e)}
 										disabled={error.error}
 									>
-										Send
+										{loading ? (
+											<img className="loading-img" src={loadingImage} />
+										) : (
+											'Send'
+										)}
 									</button>
 								</div>
+								{addError ? (
+									<p className="error-text">Server Encountered some error</p>
+								) : (
+									''
+								)}
 								{error.error && <p className="error-text">Form is invalid</p>}
 							</section>
 						</div>
