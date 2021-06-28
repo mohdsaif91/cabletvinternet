@@ -18,8 +18,11 @@ const defaultProps = {
 
 const initialFormData = {
 	fullName: '',
-	phoneNumber: 0,
+	fullNameError: null,
+	phoneNumber: undefined,
+	phoneNumberError: null,
 	email: '',
+	emailError: null,
 	planeTypeCommercial: false,
 	planeTypeResidential: false,
 	serviceTypePhone: false,
@@ -71,20 +74,12 @@ const Cta = ({
 	const [error, setError] = useState({ ...errorData });
 	const [validCheckBox, setValidCheckBox] = useState({ ...checkboxData });
 
-	const { addCustomer, addError, loading } = useContext(CustomerContext);
-
+	const { addCustomer, addError, loading, sucess, flip, flipToForm } =
+		useContext(CustomerContext);
 	useEffect(() => {
 		if (loading) {
 			setFormData({
-				...formdata,
-				email: '',
-				phoneNumber: null,
-				fullName: '',
-				planeTypeCommercial: false,
-				planeTypeResidential: false,
-				serviceTypePhone: false,
-				serviceTypeCableTv: false,
-				serviceTypeInternet: false,
+				...initialFormData,
 			});
 		}
 		window.addEventListener('resize', handleWindowSize);
@@ -118,9 +113,13 @@ const Cta = ({
 					msg: error.fullName.msg,
 					show: value.trim() === '',
 				};
-				value.trim() === ''
-					? setError({ ...error, fullName: fullNameError, error: true })
-					: setFormData({ ...formdata, fullName: value, error: false });
+				if (value.trim() === '') {
+					setError({ ...error, fullName: fullNameError, error: true });
+					setFormData({ ...formdata, fullName: value });
+				} else {
+					setError({ ...error, fullName: fullNameError, error: false });
+					setFormData({ ...formdata, fullName: value });
+				}
 
 				break;
 			case type === 'phoneNumber':
@@ -131,6 +130,7 @@ const Cta = ({
 						msg: 'Phone Number Cannot be null',
 						show: true,
 					};
+					setFormData({ ...formdata, phoneNumber: undefined });
 					setError({ ...error, phoneNumber: phoneNumberError, error: true });
 				} else if (phoneRegex.test(value)) {
 					phoneNumberError = {
@@ -144,6 +144,7 @@ const Cta = ({
 						msg: 'Not A Phone Number',
 						show: true,
 					};
+					setFormData({ ...formdata, phoneNumber: undefined });
 					setError({ ...error, phoneNumber: phoneNumberError, error: true });
 				}
 				break;
@@ -156,6 +157,7 @@ const Cta = ({
 						msg: 'Email Cannot be null',
 						show: true,
 					};
+					setFormData({ ...formdata, email: value });
 					setError({ ...error, email: emailError, error: true });
 				} else if (emailRegex.test(value)) {
 					emailError = {
@@ -169,23 +171,29 @@ const Cta = ({
 						msg: 'Not an email',
 						show: true,
 					};
+					setFormData({ ...formdata, email: value });
 					setError({ ...error, email: emailError, error: true });
 				}
 				break;
 			case type === 'residential':
 				setFormData({ ...formdata, planeTypeResidential: value });
+				setValidCheckBox({ ...checkboxData, checkService: false });
 				break;
 			case type === 'commercial':
 				setFormData({ ...formdata, planeTypeCommercial: value });
+				setValidCheckBox({ ...checkboxData, checkService: false });
 				break;
 			case type === 'phone':
 				setFormData({ ...formdata, serviceTypePhone: value });
+				setValidCheckBox({ ...checkboxData, checkPlan: false });
 				break;
 			case type === 'CabelTV':
 				setFormData({ ...formdata, serviceTypeCableTv: value });
+				setValidCheckBox({ ...checkboxData, checkPlan: false });
 				break;
 			case type === 'internet':
 				setFormData({ ...formdata, serviceTypeInternet: value });
+				setValidCheckBox({ ...checkboxData, checkPlan: false });
 				break;
 		}
 	};
@@ -198,8 +206,39 @@ const Cta = ({
 			serviceTypePhone,
 			serviceTypeCableTv,
 			serviceTypeInternet,
+			email,
+			phoneNumber,
+			fullName,
 		} = formdata;
-		if (planeTypeCommercial === false && planeTypeResidential === false) {
+		if (email === '' || phoneNumber === undefined || fullName === '') {
+			let emailError = {};
+			let phoneNumberError = {};
+			let fullNameError = {};
+			switch (true) {
+				case fullName === '':
+					fullNameError = {
+						msg: 'Fullname cannot be null',
+						show: true,
+					};
+					setError({ ...error, fullName: fullNameError, error: true });
+					break;
+				case phoneNumber === undefined:
+					phoneNumberError = {
+						msg: 'Phone Number Cannot be null',
+						show: true,
+					};
+					setError({ ...error, phoneNumber: phoneNumberError, error: true });
+					break;
+				case email === '':
+					emailError = {
+						msg: 'Email cannot be null',
+						show: true,
+					};
+					setError({ ...error, email: emailError, error: true });
+					break;
+			}
+			return;
+		} else if (planeTypeCommercial === false && planeTypeResidential === false) {
 			setValidCheckBox({ ...checkboxData, checkPlan: true });
 			return;
 		} else if (
@@ -211,8 +250,13 @@ const Cta = ({
 			return;
 		} else {
 			addCustomer(formdata);
-			// setFormData({ ...initialFormData });
+			setFormData({ ...initialFormData });
 		}
+		return;
+	};
+
+	const flipToFormEvent = () => {
+		flipToForm();
 	};
 
 	const mobile = width <= 768 ? true : false;
@@ -221,186 +265,231 @@ const Cta = ({
 		<section {...props} className={outerClasses}>
 			<div className="container">
 				<div className={innerClasses}>
-					<form className="customer-form">
-						<div className="form-heading">
-							<h2 style={{ color: '#1cb68b' }}>Supports 360</h2>
-							<h4>Talk to a Pro Today!</h4>
-						</div>
-						<div className={`main-sub-heading ${mobile ? '' : 'm3rem text-center'} `}>
-							Get all your burning questions answered by a professional. Fill out the
-							form below and our team will be in-touch shortly!
-						</div>
-						<div className={`main mt-16 ${mobile ? 'col' : 'row'}`}>
-							<section className={`left ${mobile ? 'w-100' : 'w-50'} mr-40`}>
-								<div className="input-container">
-									<div className="form__group">
-										<div className="test-label">
-											<div className="main-text">Full Name</div>
-											<div className="required">Required</div>
+					{flip === false && sucess === null ? (
+						<form className="customer-form">
+							<div className="form-heading">
+								<h2 style={{ color: '#1cb68b' }}>Supports 360</h2>
+								<h4>Talk to a Pro Today!</h4>
+							</div>
+							<div
+								className={`main-sub-heading ${mobile ? '' : 'm3rem text-center'} `}
+							>
+								Get all your burning questions answered by a professional. Fill out
+								the form below and our team will be in-touch shortly!
+							</div>
+							<div className={`main mt-16 ${mobile ? 'col' : 'row'}`}>
+								<section className={`left ${mobile ? 'w-100' : 'w-50'} mr-40`}>
+									<div className="input-container">
+										<div className="form__group">
+											<div className="test-label">
+												<div className="main-text">Full Name</div>
+												<div className="required">Required</div>
+											</div>
+											<input
+												type="text"
+												className="form__input"
+												id="name"
+												value={formdata.fullName}
+												onChange={(e) =>
+													updateForm('fullName', e.target.value)
+												}
+											/>
+											<div className="ht-gap-1">
+												{error.fullName.show && (
+													<p className="error-text">
+														{error.fullName.msg}
+													</p>
+												)}
+											</div>
 										</div>
-										<input
-											type="text"
-											className="form__input"
-											id="name"
-											onChange={(e) => updateForm('fullName', e.target.value)}
-										/>
-										<div className="ht-gap-1">
-											{error.fullName.show && (
-												<p className="error-text">{error.fullName.msg}</p>
-											)}
+										<div className="form__group">
+											<div className="test-label">
+												<div className="main-text">Phone Number</div>
+												<div className="required">Required</div>
+											</div>
+											<input
+												type="text"
+												className="form__input"
+												value={formdata.phoneNumber}
+												id="name"
+												onChange={(e) =>
+													updateForm('phoneNumber', e.target.value)
+												}
+											/>
+											<div className="ht-gap-1">
+												{error.phoneNumber.show && (
+													<p className="error-text">
+														{error.phoneNumber.msg}
+													</p>
+												)}
+											</div>
+										</div>
+										<div className="form__group">
+											<div className="test-label">
+												<div className="main-text">Email</div>
+												<div className="required">Required</div>
+											</div>
+											<input
+												type="text"
+												className="form__input"
+												value={formdata.email}
+												id="name"
+												onChange={(e) =>
+													updateForm('email', e.target.value)
+												}
+											/>
+											<div className="ht-gap-1">
+												{error.email.show && (
+													<p className="error-text">{error.email.msg}</p>
+												)}
+											</div>
 										</div>
 									</div>
-									<div className="form__group">
-										<div className="test-label">
-											<div className="main-text">Phone Number</div>
-											<div className="required">Required</div>
+								</section>
+								<section className="right">
+									<div className={`input-container ${mobile ? 'mt-10' : ''}`}>
+										<div className="text-left">
+											<h3 style={{ color: '#1cb68b' }}>Select Type</h3>
 										</div>
-										<input
-											type="text"
-											className="form__input"
-											id="name"
-											onChange={(e) =>
-												updateForm('phoneNumber', e.target.value)
-											}
-										/>
-										<div className="ht-gap-1">
-											{error.phoneNumber.show && (
-												<p className="error-text">
-													{error.phoneNumber.msg}
-												</p>
-											)}
+										<div className="check-box-container row">
+											<input
+												type="checkbox"
+												className="checkbox mr-4"
+												id="Residential"
+												checked={formdata.planeTypeResidential}
+												onChange={(e) =>
+													updateForm('residential', e.target.checked)
+												}
+											/>
+											<label
+												for="Residential"
+												className="checkbox-label mr-16"
+											>
+												Residential
+											</label>
+											<input
+												type="checkbox"
+												className="checkbox mr-4"
+												id="Commercial"
+												checked={formdata.planeTypeCommercial}
+												onChange={(e) =>
+													updateForm('commercial', e.target.checked)
+												}
+											/>
+											<label
+												for="Commercial"
+												className="checkbox-label mr-16"
+											>
+												Commercial
+											</label>
 										</div>
-									</div>
-									<div className="form__group">
-										<div className="test-label">
-											<div className="main-text">Email</div>
-											<div className="required">Required</div>
-										</div>
-										<input
-											type="text"
-											className="form__input"
-											id="name"
-											onChange={(e) => updateForm('email', e.target.value)}
-										/>
-										<div className="ht-gap-1">
-											{error.email.show && (
-												<p className="error-text">{error.email.msg}</p>
-											)}
-										</div>
-									</div>
-								</div>
-							</section>
-							<section className="right">
-								<div className={`input-container ${mobile ? 'mt-10' : ''}`}>
-									<div className="text-left">
-										<h3 style={{ color: '#1cb68b' }}>Select Type</h3>
-									</div>
-									<div className="check-box-container row">
-										<input
-											type="checkbox"
-											className="checkbox mr-4"
-											id="Residential"
-											checked={formdata.planeTypeResidential}
-											onChange={(e) =>
-												updateForm('residential', e.target.checked)
-											}
-										/>
-										<label for="Residential" className="checkbox-label mr-16">
-											Residential
-										</label>
-										<input
-											type="checkbox"
-											className="checkbox mr-4"
-											id="Commercial"
-											checked={formdata.planeTypeCommercial}
-											onChange={(e) =>
-												updateForm('commercial', e.target.checked)
-											}
-										/>
-										<label for="Commercial" className="checkbox-label mr-16">
-											Commercial
-										</label>
-									</div>
-									{validCheckBox.checkPlan && (
-										<p className="error-text">Please choose one</p>
-									)}
-									<div className="text-left">
-										<h3 style={{ color: '#1cb68b' }}>Service Type</h3>
-									</div>
-									<div className="check-box-container row">
-										<input
-											type="checkbox"
-											className="checkbox mr-4"
-											id="Phone"
-											checked={formdata.serviceTypePhone}
-											onChange={(e) => updateForm('phone', e.target.checked)}
-										/>
-										<label for="Phone" className="checkbox-label mr-16">
-											Phone
-										</label>
-										<input
-											type="checkbox"
-											className="checkbox mr-4"
-											id="CabelTV"
-											checked={formdata.serviceTypeCableTv}
-											onChange={(e) =>
-												updateForm('CabelTV', e.target.checked)
-											}
-										/>
-										<label for="CabelTV" className="checkbox-label mr-16">
-											Cabel TV
-										</label>
-										<input
-											type="checkbox"
-											className="checkbox mr-4"
-											id="Internet"
-											checked={formdata.serviceTypeInternet}
-											onChange={(e) =>
-												updateForm('internet', e.target.checked)
-											}
-										/>
-										<label for="Internet" className="checkbox-label">
-											Internet
-										</label>
-									</div>
-									{validCheckBox.checkService && (
-										<p className="error-text">Please choose one</p>
-									)}
-								</div>
-								<div className="send-btn-cont mt-32">
-									<button
-										data-tip
-										data-for="notification-info-confirmation-precheck"
-										className={`btn btn-tablink send-btn ${
-											error.error && 'opacity'
-										}`}
-										onClick={(e) => sendData(e)}
-										disabled={error.error}
-									>
-										{loading ? (
-											<img className="loading-img" src={loadingImage} />
-										) : (
-											'Send'
+										{validCheckBox.checkPlan && (
+											<p className="error-text">Please choose one</p>
 										)}
-									</button>
-								</div>
-								{addError ? (
-									<p className="error-text">Server Encountered some error</p>
-								) : (
-									''
-								)}
-								{error.error && <p className="error-text">Form is invalid</p>}
-							</section>
+										<div className="text-left">
+											<h3 style={{ color: '#1cb68b' }}>Service Type</h3>
+										</div>
+										<div className="check-box-container row">
+											<input
+												type="checkbox"
+												className="checkbox mr-4"
+												id="Phone"
+												checked={formdata.serviceTypePhone}
+												onChange={(e) =>
+													updateForm('phone', e.target.checked)
+												}
+											/>
+											<label for="Phone" className="checkbox-label mr-16">
+												Phone
+											</label>
+											<input
+												type="checkbox"
+												className="checkbox mr-4"
+												id="CabelTV"
+												checked={formdata.serviceTypeCableTv}
+												onChange={(e) =>
+													updateForm('CabelTV', e.target.checked)
+												}
+											/>
+											<label for="CabelTV" className="checkbox-label mr-16">
+												Cabel TV
+											</label>
+											<input
+												type="checkbox"
+												className="checkbox mr-4"
+												id="Internet"
+												checked={formdata.serviceTypeInternet}
+												onChange={(e) =>
+													updateForm('internet', e.target.checked)
+												}
+											/>
+											<label for="Internet" className="checkbox-label">
+												Internet
+											</label>
+										</div>
+										{validCheckBox.checkService && (
+											<p className="error-text">Please choose one</p>
+										)}
+									</div>
+									<div className="send-btn-cont mt-32">
+										<button
+											data-tip
+											data-for="notification-info-confirmation-precheck"
+											className={`btn btn-tablink send-btn ${
+												error.error && 'opacity'
+											}`}
+											onClick={(e) => sendData(e)}
+											// disabled={error.error}
+										>
+											{loading ? (
+												<img className="loading-img" src={loadingImage} />
+											) : (
+												'Send'
+											)}
+										</button>
+									</div>
+									{addError ? (
+										<p className="error-text">Server Encountered some error</p>
+									) : (
+										''
+									)}
+									{error.error && <p className="error-text">Form is invalid</p>}
+								</section>
+							</div>
+							<div className={`form-policy ${mobile ? '' : 'm3rem'}`}>
+								<br /> By clicking the submit button above and submitting this form,
+								I acknowledge that I permit Support 360 to use my information
+								provided to search for their best current offers for telecom
+								services. I also allow Support 360 express consent to contact me at
+								the number and/or email address I have provided above with automated
+								technology in relation to this inquiry via phone or e-mail.
+							</div>
+						</form>
+					) : (
+						<div className={`flip-card ${mobile ? '' : 'text-center'}`}>
+							{window.scroll(0, 1950)}
+							<p>SUPPORT360 SATELLITE AND CABLE SERVICES THANK YOU 'RE ALL SET.</p>
+							<p>
+								😊WE 'RE SO EXCITED THAT YOU RE READY TO SPEAK WITH US AND CLAIM THE
+								OFFER.
+							</p>
+							<p>
+								THE NEXT STEP OUR ASSOCIATE WILL CALL YOU IN NEXT 30 MINUTES OR CALL
+								NOW
+							</p>
+							<div className="d-flex-col mt-16 grid">
+								<a href="tel: +18059176770" className="phone-btn">
+									+1805-917-6770
+								</a>
+								<button
+									className="btn btn-tablink ok-btn mt-32"
+									onClick={() => flipToFormEvent()}
+								>
+									OK
+								</button>
+							</div>
 						</div>
-						<div className={`form-policy ${mobile ? '' : 'm3rem'}`}>
-							<br /> By clicking the submit button above and submitting this form, I
-							acknowledge that I permit Support 360 to use my information provided to
-							search for their best current offers for telecom services. I also allow
-							Support 360 express consent to contact me at the number and/or email
-							address I have provided above with automated technology in relation to
-							this inquiry via phone or e-mail.
-						</div>
-					</form>
+					)}
 				</div>
 			</div>
 		</section>

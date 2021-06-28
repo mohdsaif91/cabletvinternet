@@ -145,6 +145,7 @@ const FeaturesTiles = ({
 				{width <= 768 ? (
 					<div className="slideshow">
 						<div
+							id="style-11"
 							className="slideshowSlider"
 							style={{ transform: `translate3d(${-mobileIndex * 100}%,0,0)` }}
 						>

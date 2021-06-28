@@ -58,6 +58,24 @@
 		}
 	}
 }
+
+.is-flipped {
+	transform: rotateY(180deg);
+}
+
+.text-center {
+	text-align: center;
+}
+
+.flip-card {
+	text-align: unset;
+}
+
+.grid {
+	display: grid;
+	place-items: center;
+}
+
 .form-policy {
 	font-size: 10px;
 	line-height: 18px !important;
