@@ -7,29 +7,31 @@ const initialData = [
 		plans: [
 			{
 				subtitle: 'Go Big',
-				planName: '50 Mbps',
+				planName: 'Basic',
+				price: '49.99',
 				disText: [
-					'Plenty to power your favorite devices and activities',
-					'Great for households with as many as a dozen connected devices',
-					'Worry-free browsing, surfing and streaming',
+					'Free Installation, DVR, Equipments, No Technician Charges Nor Any Heavy Deposits.Plenty to power your favorite devices and activities',
+					'Premium Movie Channels like STARZ, HBO, CINEMAX FREE For the First 12 Months.',
 				],
 			},
 			{
 				subtitle: 'GO BIGGER',
-				planName: '500 Mbps',
+				planName: 'Best',
+				price: '59.99',
 				disText: [
-					'Amp up what’s possible for work/school/gaming/streaming and more…at the same time!',
-					'No lag with upload speeds as much as 25x faster than cable*',
+					'185+ Channels with all the LOCAL AREA NETWORKS available in your area and all in High Definition.',
+					'Free "NFL Sunday Ticket"',
 					'Power busy households with dozens of smart devices',
 				],
 			},
 			{
 				subtitle: 'Be Unstopable',
 				planName: 'Gig Service',
+				price: '69.99',
 				disText: [
-					'Never worry with lightning speed and incredible bandwidth',
-					'Experience 25x the speed of cable**',
-					'Powerful speeds to support your tech-forward household',
+					'$50.00 Guaranteed VISA GIFT CARD FREE on the Successful Installation.',
+					'185+ Channels with all the LOCAL AREA NETWORKS available in your area and all in High Definition.',
+					'With Supports 360’ TV entertainment packages, there’s something for everyone.',
 				],
 			},
 		],
@@ -111,13 +113,14 @@ export default function OfferCards({ tab }) {
 				<h3>{data[tab].title}</h3>
 			</div>
 			<div className="card__container grid">
-				{data[tab].plans.map(({ subtitle, planName, disText }) => (
+				{data[tab].plans.map(({ subtitle, planName, disText, price }) => (
 					<article className="card__content grid">
 						<div className="card__pricing">
 							<div className="card__pricing-number">
-								<span className="card__pricing-symbol">$</span>0
+								<span className="card__pricing-symbol">$</span>
+								{price}
 							</div>
-							<span className="card__pricing-month">/month</span>
+							{/* <span className="card__pricing-month">/month</span> */}
 						</div>
 						<>
 							<header className="card__header">

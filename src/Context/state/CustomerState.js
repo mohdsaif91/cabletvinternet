@@ -18,17 +18,16 @@ export const CustomerProvider = ({ children }) => {
 
 	const addCustomer = async (data) => {
 		dispatch(addingCustomer());
-		// await addCustomerApi(data)
-		// 	.then((res) => {
-		dispatch(addedCustomer());
-		// if (res.status === 201) {
-		if (true) {
-			dispatch(addCustomerSucessfull([]));
-		} else {
-			// dispatch(addCustomerUnSucessfull(res.data));
-		}
-		// })
-		// .catch((err) => dispatch(addCustomerUnSucessfull(err)));
+		await addCustomerApi(data)
+			.then((res) => {
+				dispatch(addedCustomer());
+				if (res.status === 201) {
+					dispatch(addCustomerSucessfull([]));
+				} else {
+					dispatch(addCustomerUnSucessfull(res.data));
+				}
+			})
+			.catch((err) => dispatch(addCustomerUnSucessfull(err)));
 	};
 
 	const flipToForm = () => {

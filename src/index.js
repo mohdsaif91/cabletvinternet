@@ -5,6 +5,7 @@ import { createBrowserHistory } from 'history';
 
 import App from './App';
 import { CustomerProvider } from './Context/state/CustomerState';
+import { AdminProvider } from './Context/state/AdminState';
 import * as serviceWorker from './serviceWorker';
 
 //import './App.css';
@@ -15,7 +16,9 @@ const history = createBrowserHistory();
 ReactDOM.render(
 	<Router history={history}>
 		<CustomerProvider>
-			<App />
+			<AdminProvider>
+				<App />
+			</AdminProvider>
 		</CustomerProvider>
 	</Router>,
 	document.getElementById('root')
