@@ -4,6 +4,8 @@ export const customerAction = {
 	ADDING_CUSTOMER: 'ADDING_CUSTOMER',
 	ADDED_CUSTOMER: 'ADDED_CUSTOMER',
 	FLIP_TO_FORM: 'FLIP_TO_FORM',
+	CUSTOMER_SUCESSFULL: 'CUSTOMER_SUCESSFULL',
+	CUSTOMER_UN_SUCESSFULL: 'CUSTOMER_UN_SUCESSFULL',
 };
 
 export function addCustomerSucessfull(data) {
@@ -35,5 +37,18 @@ export function addCustomerUnSucessfull(data) {
 export function flipToFormAction() {
 	return {
 		type: customerAction.FLIP_TO_FORM,
+	};
+}
+
+export function getCustomerSucessfull(data) {
+	return {
+		type: customerAction.CUSTOMER_SUCESSFULL,
+		data,
+	};
+}
+
+export function getCustomerUnSucessfull() {
+	return {
+		type: customerAction.CUSTOMER_UN_SUCESSFULL,
 	};
 }

@@ -25,6 +25,8 @@ const Header = ({
 	hideSignin,
 	bottomOuterDivider,
 	bottomDivider,
+	adminSucess,
+	logout,
 	...props
 }) => {
 	const [isActive, setIsactive] = useState(false);
@@ -71,6 +73,9 @@ const Header = ({
 		className
 	);
 
+	// const logout = () => {};
+
+	console.log(adminSucess, '<>?');
 	return (
 		<header {...props} className={classes}>
 			<div className="container">
@@ -90,9 +95,20 @@ const Header = ({
 								<div className="header-nav-inner">
 									<ul className="list-reset header-nav-right">
 										<li>
-											<a href="tel: +18059176770" className="phone-btn">
-												+1 805-917-6770
-											</a>
+											{sessionStorage.getItem('admin') ? (
+												<a
+													href="#"
+													onClick={() => logout()}
+													className="phone-btn"
+												>
+													Logout
+												</a>
+											) : (
+												// <button className="btn btn-ghost">Log-Out</button>
+												<a href="tel: +18059176770" className="phone-btn">
+													+1 805-917-6770
+												</a>
+											)}
 										</li>
 									</ul>
 								</div>

@@ -217,6 +217,15 @@ input[type='checkbox'].checkbox {
 	width: 30%;
 }
 
+.btn-ghost {
+	display: grid;
+	place-items: center;
+	.loading-img-login {
+		height: 100% !important;
+		width: 27% !important;
+	}
+}
+
 .login-container {
 	margin: 3rem 0 2rem 0;
 	display: grid;

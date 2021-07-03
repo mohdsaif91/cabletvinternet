@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { AdminContext } from '../Context/state/AdminState';
+import loadingImage from '../assets/images/loading.gif';
 
 const initialData = {
 	userName: '',
@@ -13,12 +14,17 @@ export default function Login() {
 	const [width, setWidth] = useState(window.innerWidth);
 	const history = useHistory();
 
-	const { adminLogin } = useContext(AdminContext);
+	const { adminLogin, loading, loginError, loginSucess, adminSucess } = useContext(AdminContext);
 
 	useEffect(() => {
 		window.addEventListener('resize', handleWindowSize);
+		console.log(loginSucess, '<>?<>?');
+		if (loginSucess === true && adminSucess === true) {
+			sessionStorage.setItem('admin', true);
+			history.push('/admin');
+		}
 		return () => window.removeEventListener('resize', handleWindowSize);
-	}, []);
+	}, [loginSucess, adminSucess]);
 
 	const handleWindowSize = () => {
 		setWidth(window.innerWidth);
@@ -27,12 +33,14 @@ export default function Login() {
 	const mobile = width <= 768 ? true : false;
 
 	const userLogin = () => {
-		console.log(loginData);
+		console.log('look <>?');
 		adminLogin(loginData);
+		setLoginData({ ...initialData });
 	};
 	const goBack = () => {
 		history.goBack();
 	};
+	console.log('came <>?');
 
 	return (
 		<div className="login-container">
@@ -67,11 +75,12 @@ export default function Login() {
 					<label for="password">Password</label>
 				</div>
 				<button onClick={() => userLogin()} className="btn btn-ghost">
-					Login
+					{loading ? <img className="loading-img-login" src={loadingImage} /> : 'Login'}
 				</button>
 				<button onClick={() => goBack()} className="btn">
 					back
 				</button>
+				{loginError && <q className="form-control-material">No user found</q>}
 			</div>
 		</div>
 	);

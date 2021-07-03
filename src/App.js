@@ -12,6 +12,8 @@ import LayoutDefault from './layouts/LayoutDefault';
 import Home from './views/Home';
 import PrivacyPolicy from './views/PrivacyPolicy.js';
 import Login from './views/Login';
+import Admin from './views/Admin/AdminPage';
+import AdminLayout from './layouts/AdminLayout';
 
 const App = () => {
 	const { admin } = AdminContext;
@@ -39,6 +41,7 @@ const App = () => {
 						component={PrivacyPolicy}
 						layout={LayoutDefault}
 					/>
+					<AppRoute path="/admin" component={Admin} layout={AdminLayout} />
 				</Switch>
 			)}
 		/>

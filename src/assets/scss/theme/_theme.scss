@@ -453,20 +453,79 @@
 }
 
 /*==================== BASE ====================*/
-* {
-	box-sizing: border-box;
-	padding: 0;
-	margin: 0;
+
+/* ==================table--------------------- OPEN*/
+
+.heading {
+	display: grid;
+	place-items: center;
+	margin: 1rem;
+	padding-top: 3rem;
 }
 
-ul {
-	list-style: none;
+.react-table {
+	margin: 1rem;
+	.rt-thead {
+		border-bottom: 2px solid black;
+		.rt-tr {
+			background-color: #fff;
+			font-weight: 600;
+			color: black;
+			font-size: 19px;
+		}
+		.time {
+			width: 50px !important;
+		}
+		.email {
+			width: 100px !important;
+		}
+		.com-hed {
+			width: 70px !important;
+		}
+		.phone-hed {
+			width: 40px !important;
+		}
+	}
+	.rt-tbody {
+		background-color: #fff;
+		font-size: 15px !important;
+		text-align: center;
+		.time-col {
+			width: 50px !important;
+		}
+		.full-name-col {
+			width: 100px !important;
+		}
+		.email-col {
+			width: 100px !important;
+		}
+		.com-col {
+			width: 70px !important;
+		}
+		.phone-col {
+			width: 40px !important;
+		}
+
+		.rt-tr-group:nth-child(even) {
+			background-color: #def9ef;
+		}
+	}
+}
+.img-col {
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+}
+.w-50 {
+	width: 50px;
 }
 
-img {
-	max-width: 100%;
-	height: auto;
+.status-img {
+	height: 20px;
 }
+
+/* ==================table--------------------- CLOSE*/
 
 /*==================== REUSABLE CSS CLASSES ====================*/
 .container {

@@ -13,6 +13,9 @@ export default (state, action) => {
 			return { ...state, loading: false };
 		case customerAction.FLIP_TO_FORM:
 			return { ...state, sucessfull: null, flip: false };
+		case customerAction.CUSTOMER_SUCESSFULL:
+			console.log(action.data, ',.');
+			return { ...state, custData: action.data };
 		default:
 			return state;
 	}
