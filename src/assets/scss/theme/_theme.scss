@@ -461,6 +461,69 @@
 	place-items: center;
 	margin: 1rem;
 	padding-top: 3rem;
+
+	.data-filter {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		border: 2px solid;
+		background-color: #f5f5f5;
+		width: 80%;
+		.input-date {
+			display: flex;
+			flex-direction: row;
+			.get-data-btn {
+				display: grid;
+				place-items: center;
+				.get-data {
+					border-radius: 5px;
+					background-color: dimgrey;
+					color: white;
+					height: 50px;
+				}
+			}
+			.date-container {
+				display: flex;
+				flex-direction: column;
+				margin: 1.5rem;
+				.date-label {
+					color: black;
+				}
+				.date-picker-cont {
+					background-color: #fff;
+					border-radius: 5px;
+					font-size: 24px;
+					margin: 0.5rem;
+					text-align: center;
+					height: 50px;
+				}
+			}
+		}
+		.btn-container {
+			margin: 2rem;
+			.btn-action {
+				text-align: center;
+				justify-content: center;
+				height: 50px;
+				border-radius: 5px;
+				margin: 0.5rem;
+				cursor: pointer;
+			}
+			.import-btn {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				padding: 1.5rem;
+				background-color: dimgrey;
+
+				.import-img {
+					margin-right: 8px;
+				}
+			}
+		}
+	}
 }
 
 .react-table {
@@ -490,6 +553,8 @@
 		background-color: #fff;
 		font-size: 15px !important;
 		text-align: center;
+		color: darkgreen;
+		font-weight: 500;
 		.time-col {
 			width: 50px !important;
 		}
@@ -497,7 +562,7 @@
 			width: 100px !important;
 		}
 		.email-col {
-			width: 100px !important;
+			width: 110px !important;
 		}
 		.com-col {
 			width: 70px !important;
@@ -508,6 +573,12 @@
 
 		.rt-tr-group:nth-child(even) {
 			background-color: #def9ef;
+		}
+		.delete-btn {
+			background-color: transparent;
+			border-radius: 5px;
+			border: 1px solid #25282c;
+			cursor: pointer;
 		}
 	}
 }
@@ -523,6 +594,10 @@
 
 .status-img {
 	height: 20px;
+}
+
+.pointer {
+	cursor: pointer;
 }
 
 /* ==================table--------------------- CLOSE*/

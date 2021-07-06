@@ -1,16 +1,23 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import ReactTable from 'react-table-6';
 import 'react-table-6/react-table.css';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import XLSX from 'xlsx';
 
 import { CustomerContext } from '../../Context/state/CustomerState';
 import { AdminContext } from '../../Context/state/AdminState';
 import Header from '../../components/layout/Header';
 import PlanAndService from './columns/planAndService';
 import Action from './columns/Action';
+import Excel from '../../assets/images/excel-import.png';
+import RightArrow from '../../assets/images/right-arrow.png';
 
 export default function AdminPage() {
+	const [startDate, setStartDate] = useState(new Date());
+	const [endDate, setEndDate] = useState(moment().add(7, 'day').endOf('day').toDate());
 	const { getCustomerData, custData } = useContext(CustomerContext);
 	const { adminSucess, logout } = useContext(AdminContext);
 
@@ -24,6 +31,41 @@ export default function AdminPage() {
 		history.push('/');
 		logout();
 	};
+
+	const importToExcel = () => {
+		let customer = [
+			[
+				'createdAt',
+				'fullName',
+				'phoneNumber',
+				'email',
+				'planeTypeCommercial',
+				'planeTypeResidential',
+				'serviceTypePhone',
+				'serviceTypeInternet',
+				'serviceTypeCableTv',
+			],
+		];
+		custData.map((m) => {
+			let custArray = [
+				m.createdAt,
+				m.fullName,
+				m.phoneNumber,
+				m.email,
+				m.planeTypeCommercial,
+				m.planeTypeResidential,
+				m.serviceTypePhone,
+				m.serviceTypeInternet,
+				m.serviceTypeCableTv,
+			];
+			customer.push(custArray);
+		});
+		const WB = XLSX.utils.book_new();
+		const wsALL = XLSX.utils.aoa_to_sheet(customer);
+		XLSX.utils.book_append_sheet(WB, wsALL, 'All Customer');
+		XLSX.writeFile(WB, 'export-demo-customer.xlsx');
+	};
+
 	console.log(custData, '<>?');
 	const columns = [
 		{
@@ -136,6 +178,45 @@ export default function AdminPage() {
 			<div>
 				<div className="heading">
 					<h3>Customer Inquires</h3>
+					<div className="data-filter">
+						<div className="input-date">
+							<div className="date-container">
+								<div>
+									<label className="date-label">Start Date</label>
+									<DatePicker
+										dateFormat="dd-MM-yyyy"
+										placeholderText="Select the Start Date"
+										className="date-picker-cont"
+										selected={startDate}
+										onChange={(date) => setStartDate(date)}
+									/>
+								</div>
+								<div>
+									<label className="date-label pr-12">End Date</label>
+									<DatePicker
+										dateFormat="dd-MM-yyyy"
+										placeholderText="Select the End Date"
+										className="date-picker-cont"
+										selected={endDate}
+										onChange={(date) => setEndDate(date)}
+									/>
+								</div>
+							</div>
+							<div className="get-data-btn">
+								<button className="btn-action pointer get-data">Get Data</button>
+							</div>
+						</div>
+						<div className="btn-container">
+							<button
+								className="btn-action pointer import-btn"
+								disabled={custData.length === 0}
+								onClick={() => importToExcel()}
+							>
+								<img className="import-img" src={RightArrow} />
+								<img src={Excel} />
+							</button>
+						</div>
+					</div>
 				</div>
 				<ReactTable
 					className="react-table"
