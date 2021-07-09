@@ -1,7 +1,7 @@
 import Axios from 'axios';
 
-const url = 'http://localhost:5000';
-// const url = 'https://cabeltvinternetserver.herokuapp.com';
+// const url = 'http://localhost:5000';
+const url = 'https://cabeltvinternetserver.herokuapp.com';
 
 //admin
 export const adminLoginApi = (data) => Axios.post(`${url}/v1/admin/login`, data);
