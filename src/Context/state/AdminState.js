@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useReducer } from 'react';
 
 import AdminReducer from '../reducers/AdminReducer';
-import { adminLoginApi } from '../../Api';
+import { adminLoginApi, getCustomerDataWIthDatesAPI } from '../../Api';
 import {
 	getAdminAccessSucess,
 	getAdminAccessUnsucess,
@@ -32,7 +32,6 @@ export const AdminProvider = ({ children }) => {
 				if (res.status === 200) {
 					dispatch(getAdminAccessSucess());
 				} else {
-					console.log(res);
 					dispatch(getAdminAccessUnsucess());
 				}
 			})
@@ -46,7 +45,6 @@ export const AdminProvider = ({ children }) => {
 		dispatch(adminLogOut());
 	};
 
-	console.log(state, '<>? ADMIN ACCESS');
 
 	return (
 		<AdminContext.Provider

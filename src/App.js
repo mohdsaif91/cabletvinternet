@@ -18,8 +18,6 @@ import AdminLayout from './layouts/AdminLayout';
 const App = () => {
 	const { admin } = AdminContext;
 
-	console.log(admin, '<>?');
-
 	const childRef = useRef();
 	let location = useLocation();
 

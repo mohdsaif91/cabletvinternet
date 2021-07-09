@@ -18,7 +18,6 @@ export default function Login() {
 
 	useEffect(() => {
 		window.addEventListener('resize', handleWindowSize);
-		console.log(loginSucess, '<>?<>?');
 		if (loginSucess === true && adminSucess === true) {
 			sessionStorage.setItem('admin', true);
 			history.push('/admin');
@@ -33,14 +32,12 @@ export default function Login() {
 	const mobile = width <= 768 ? true : false;
 
 	const userLogin = () => {
-		console.log('look <>?');
 		adminLogin(loginData);
 		setLoginData({ ...initialData });
 	};
 	const goBack = () => {
 		history.goBack();
 	};
-	console.log('came <>?');
 
 	return (
 		<div className="login-container">

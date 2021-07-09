@@ -6,7 +6,23 @@ export const customerAction = {
 	FLIP_TO_FORM: 'FLIP_TO_FORM',
 	CUSTOMER_SUCESSFULL: 'CUSTOMER_SUCESSFULL',
 	CUSTOMER_UN_SUCESSFULL: 'CUSTOMER_UN_SUCESSFULL',
+	DATA_WITH_DATE_SUCESS: 'DATA_WITH_DATE_SUCESS',
+	DATA_WITH_DATE_FAIL: 'DATA_WITH_DATE_FAIL',
 };
+
+export function dataWithDateSucess(data) {
+	return {
+		type: customerAction.DATA_WITH_DATE_SUCESS,
+		data,
+	};
+}
+
+export function dataWithDateFail(error) {
+	return {
+		type: customerAction.DATA_WITH_DATE_FAIL,
+		error,
+	};
+}
 
 export function addCustomerSucessfull(data) {
 	return {

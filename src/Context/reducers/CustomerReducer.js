@@ -1,7 +1,6 @@
 import { customerAction } from '../action/CustomerAction';
 
 export default (state, action) => {
-	console.log(action.type);
 	switch (action.type) {
 		case customerAction.ADD_CUSTOMER_SUESSFULL:
 			return { ...state, error: false, sucessfull: true, flip: true };
@@ -12,10 +11,21 @@ export default (state, action) => {
 		case customerAction.ADDED_CUSTOMER:
 			return { ...state, loading: false };
 		case customerAction.FLIP_TO_FORM:
-			return { ...state, sucessfull: null, flip: false };
+			return {
+				...state,
+				sucessfull: null,
+				flip: false,
+			};
 		case customerAction.CUSTOMER_SUCESSFULL:
-			console.log(action.data, ',.');
 			return { ...state, custData: action.data };
+		case customerAction.DATA_WITH_DATE_SUCESS:
+			return {
+				...state,
+				custData: action.data,
+				error: false,
+			};
+		case customerAction.DATA_WITH_DATE_FAIL:
+			return { ...state, error: true };
 		default:
 			return state;
 	}

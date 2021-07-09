@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import { addCustomerApi, getCustomerDataApi } from '../../Api';
+
+import { addCustomerApi, getCustomerDataApi, getCustomerDataWIthDatesAPI } from '../../Api';
 import {
 	addCustomerSucessfull,
 	addCustomerUnSucessfull,
@@ -7,12 +8,18 @@ import {
 	addedCustomer,
 	flipToFormAction,
 	getCustomerSucessfull,
-	getCustomerUnSucessfull,
+	dataWithDateFail,
+	dataWithDateSucess,
 } from '../action/CustomerAction';
-
 import CustomerReducer from '../reducers/CustomerReducer';
 
-const initialState = { error: false, loading: false, sucessFull: null, flip: false, custData: [] };
+const initialState = {
+	error: false,
+	loading: false,
+	sucessFull: null,
+	flip: false,
+	custData: undefined,
+};
 export const CustomerContext = createContext();
 
 export const CustomerProvider = ({ children }) => {
@@ -45,7 +52,18 @@ export const CustomerProvider = ({ children }) => {
 	const flipToForm = () => {
 		dispatch(flipToFormAction());
 	};
-	console.log(state.custData, ',.');
+
+	const getCustomerDataWIthDates = async (sDate, eDate) => {
+		await getCustomerDataWIthDatesAPI(sDate, eDate)
+			.then((res) => {
+				if (res.status === 200) {
+					dispatch(dataWithDateSucess(res.data));
+				}
+			})
+			.catch((error) => {
+				dispatch(dataWithDateFail(error));
+			});
+	};
 
 	return (
 		<CustomerContext.Provider
@@ -53,6 +71,7 @@ export const CustomerProvider = ({ children }) => {
 				addCustomer,
 				flipToForm,
 				getCustomerData,
+				getCustomerDataWIthDates,
 				addError: state.error,
 				loading: state.loading,
 				sucess: state.sucessFull,

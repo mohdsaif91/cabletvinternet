@@ -1,7 +1,6 @@
 import { AdminAction } from '../action/AdminAction';
 
 export default (state, action) => {
-	console.log(action);
 	switch (action.type) {
 		case AdminAction.GET_ADMIN_ACCESS_SUCESS:
 			return {
@@ -11,7 +10,6 @@ export default (state, action) => {
 				adminSucess: true,
 			};
 		case AdminAction.GET_ADMIN_ACCESS_UN_SUCESS:
-			console.log(action.data);
 			return {
 				...state,
 				loading: false,

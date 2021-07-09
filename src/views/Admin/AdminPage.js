@@ -18,14 +18,20 @@ import RightArrow from '../../assets/images/right-arrow.png';
 export default function AdminPage() {
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(moment().add(7, 'day').endOf('day').toDate());
-	const { getCustomerData, custData } = useContext(CustomerContext);
+	const { getCustomerData, custData, getCustomerDataWIthDates } = useContext(CustomerContext);
 	const { adminSucess, logout } = useContext(AdminContext);
+	const [data, setData] = useState([]);
 
 	const history = useHistory();
+	useEffect(() => {
+		if (custData === undefined) {
+			getCustomerData();
+		}
+	}, []);
 
 	useEffect(() => {
-		getCustomerData();
-	}, []);
+		setData(custData);
+	}, [custData]);
 
 	const logoutAdmin = () => {
 		history.push('/');
@@ -46,7 +52,7 @@ export default function AdminPage() {
 				'serviceTypeCableTv',
 			],
 		];
-		custData.map((m) => {
+		data.map((m) => {
 			let custArray = [
 				m.createdAt,
 				m.fullName,
@@ -63,10 +69,21 @@ export default function AdminPage() {
 		const WB = XLSX.utils.book_new();
 		const wsALL = XLSX.utils.aoa_to_sheet(customer);
 		XLSX.utils.book_append_sheet(WB, wsALL, 'All Customer');
-		XLSX.writeFile(WB, 'export-demo-customer.xlsx');
+		XLSX.writeFile(
+			WB,
+			`From-${moment(startDate).format('DD-MM-YYYY')}/TO-${moment(endDate).format(
+				'DD-MM-YYYY'
+			)}.xlsx`
+		);
 	};
 
-	console.log(custData, '<>?');
+	const getDataWithDates = () => {
+		getCustomerDataWIthDates(
+			moment(startDate).startOf('day').toDate(),
+			moment(endDate).endOf('day').toDate()
+		);
+	};
+
 	const columns = [
 		{
 			Header: 'Customer Data',
@@ -203,13 +220,18 @@ export default function AdminPage() {
 								</div>
 							</div>
 							<div className="get-data-btn">
-								<button className="btn-action pointer get-data">Get Data</button>
+								<button
+									onClick={() => getDataWithDates()}
+									className="btn-action pointer get-data"
+								>
+									Get Data
+								</button>
 							</div>
 						</div>
 						<div className="btn-container">
 							<button
 								className="btn-action pointer import-btn"
-								disabled={custData.length === 0}
+								disabled={custData === undefined || custData.length === 0}
 								onClick={() => importToExcel()}
 							>
 								<img className="import-img" src={RightArrow} />
@@ -218,12 +240,7 @@ export default function AdminPage() {
 						</div>
 					</div>
 				</div>
-				<ReactTable
-					className="react-table"
-					data={custData}
-					columns={columns}
-					pageSize={50}
-				/>
+				<ReactTable className="react-table" data={data} columns={columns} pageSize={50} />
 			</div>
 		</div>
 	);

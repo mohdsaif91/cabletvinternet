@@ -72,10 +72,6 @@ const Header = ({
 		bottomOuterDivider && 'has-bottom-divider',
 		className
 	);
-
-	// const logout = () => {};
-
-	console.log(adminSucess, '<>?');
 	return (
 		<header {...props} className={classes}>
 			<div className="container">
